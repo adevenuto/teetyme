@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\State;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,7 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::get('/', function() {
-    return view('welcome');
+    $states = State::all();
+    return view('welcome', ['states' => $states]);
 });
 
 Route::post('scrape/states', 'ScrappingController@scrapeStates');
