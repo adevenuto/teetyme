@@ -12,7 +12,7 @@
     <body class="antialiased">
         <ul>
             @foreach ($states as $state)
-                <li>{{ $state->name }}</li>
+                <li>{{$state->country}}, {{ $state->name }}</li>
             @endforeach
         </ul>
     </body>
