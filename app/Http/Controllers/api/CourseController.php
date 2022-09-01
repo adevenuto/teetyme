@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
-use Illuminate\Http\Request;
 use DB;
+use App\Models\Course;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class CourseController extends Controller
 {
@@ -14,10 +16,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $courses = DB::table('courses as c')
-                        ->orderBy('c.name', 'ASC')
-                        ->get();
-        return view('courses.index', ['courses' => $courses]);
+        return Course::all();
     }
 
     /**

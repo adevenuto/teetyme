@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\State;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,17 +12,16 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function() {
-    $states = State::all();
-    return view('welcome', ['states' => $states]);
-});
 
-Route::post('scrape/states', 'ScrappingController@scrapeStates');
-Route::post('scrape/cities', 'ScrappingController@scrapeCities');
-Route::post('scrape/courses', 'ScrappingController@scrapeCourses');
-Route::post('scrape/courses/holes', 'ScrappingController@scrapeCourseHoles');
+// Only used for initial data scrape
+// Route::post('scrape/states', 'ScrappingController@scrapeStates');
+// Route::post('scrape/cities', 'ScrappingController@scrapeCities');
+// Route::post('scrape/courses', 'ScrappingController@scrapeCourses');
+// Route::post('scrape/courses/holes', 'ScrappingController@scrapeCourseHoles');
+
+Route::view('/{any?}', 'landing')
+    ->name('landing')
+    ->where('any', '.*');
 
 
 
-Route::get('courses', 'CourseController@index');
-Route::get('course/{id}/details', 'CourseController@show');
