@@ -1,9 +1,9 @@
 import axios from "axios";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 export default function useCourses() {
     const courses   = ref([])
-    const course    = ref({})
+    const course    = ref([])
 
     const getCourses = async () => {
         const res = await axios.get('/api/courses');;
@@ -17,10 +17,13 @@ export default function useCourses() {
         const res = await axios.get(`/api/course/${id}`);
         try {
             console.log(res)
-            // courses.value = res.data
+            course.value = res.data
         } catch (err) {
             console.log(err);
         }
     }
-    return { courses, getCourses, course, getCourse }
+    const courseDataSet = computed(() =>{
+        return Object.keys(course.value).length !== 0;
+    });
+    return { courses, getCourses, course, courseDataSet, getCourse }
 }
