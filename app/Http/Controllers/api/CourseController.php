@@ -48,21 +48,26 @@ class CourseController extends Controller
      */
     public function show($id)
     {
-        $course = DB::table('courses as c')
+        try {
+            $course = DB::table('courses as c')
                         ->select('c.name')
                         ->where('c.id', $id)
                         ->first();
-        $holes_collection = collect(DB::table('holes as h')
+            $holes_collection = collect(DB::table('holes as h')
                         ->where('h.course_id', $id)
                         ->orderBy('h.teebox', 'ASC')
                         ->orderBy('h.number', 'ASC')
                         ->get());
-        $course_teeboxes = $holes_collection->unique('teebox')->pluck('teebox');
-        $teeboxes = [];
-        foreach ($course_teeboxes as $teebox) {
-            $teeboxes[$teebox] = $holes_collection->where('teebox', $teebox);
+            $course_teeboxes = $holes_collection->unique('teebox')->pluck('teebox');
+            $teeboxes = [];
+            foreach ($course_teeboxes as $teebox) {
+                $teeboxes[$teebox] = $holes_collection->where('teebox', $teebox);
+            }
+            return response()->json(['course' => $course, 'teeboxes' => $teeboxes], 200);
+        } catch (\exception $e) {
+            return response()->json(['error' => 'something went wrong'], 400);
         }
-        return view('courses.show', ['course' => $course, 'teeboxes' => $teeboxes]);
+        
     }
 
     /**

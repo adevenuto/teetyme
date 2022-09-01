@@ -5,10 +5,12 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import LandingPage from './components/LandingPage'
 import CoursesIndex from './components/courses/CoursesIndex'
+import CourseShowEdit from './components/courses/CourseShowEdit'
 
 const routes = [
     { path: '/', component: LandingPage},
-    { path: '/courses', component: CoursesIndex}
+    { path: '/courses', component: CoursesIndex},
+    { path: '/course/:id', component: CourseShowEdit},
 ]
 
 const router = createRouter({

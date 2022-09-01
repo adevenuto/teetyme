@@ -4,7 +4,9 @@
             <router-link to="/">Home</router-link>
         </div>
         <div v-if="courses">
-            <li v-for="course in courses" :key="course.id">{{ course.name }}</li>
+            <li v-for="course in courses" :key="course.id">
+                <a :href="`/course/${course.id}`">{{ course.name }}</a>
+            </li>
         </div>
         <div else>Loading</div>
         
