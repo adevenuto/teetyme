@@ -16,7 +16,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        return Course::all();
+        return Course::where('city_id', 1940)->get();
     }
 
     /**

@@ -5,6 +5,7 @@
     </head>
     <body>
         <div id="app" class="h-screen">
+            <dynamic-dialog></dynamic-dialog>
             <router-view></router-view>
         </div>
         @include('partials.layout.scripts')
