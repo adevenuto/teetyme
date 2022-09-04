@@ -14,9 +14,10 @@ class CourseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        return Course::where('city_id', 1940)->get();
+    public function index(Request $request)
+    {   
+        $term = $request->term;
+        return Course::where([['name','like','%'.$term.'%']])->get();
     }
 
     /**
