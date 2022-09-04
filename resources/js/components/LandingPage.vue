@@ -6,7 +6,6 @@
             --- 
             <router-link to="/courses">Courses</router-link>
         </div>
-        
     </div>
 </template>
 

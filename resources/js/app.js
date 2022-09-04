@@ -11,6 +11,7 @@ import Divider from 'primevue/divider';
 import Card from 'primevue/card';
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
+import AutoComplete from 'primevue/autocomplete'
 
 import DialogService from 'primevue/dialogservice'
 import DynamicDialog from 'primevue/dynamicdialog'
@@ -28,7 +29,7 @@ import CourseShowEdit from './components/courses/CourseShowEdit'
 const routes = [
     { path: '/', component: LandingPage},
     { path: '/courses', component: CoursesIndex},
-    { path: '/course/:id', component: CourseShowEdit},
+    { path: '/course/:id', component: CourseShowEdit, name: 'CoursesShowEdit'},
 ]
 
 const router = createRouter({
@@ -48,4 +49,5 @@ app.component('DynamicDialog', DynamicDialog)
 app.component('Toast', Toast)
 app.component('TabView', TabView)
 app.component('TabPanel', TabPanel)
+app.component('AutoComplete', AutoComplete)
 app.mount('#app')
