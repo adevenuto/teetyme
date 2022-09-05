@@ -31,11 +31,11 @@ const routes = [
     { path: '/courses', component: CoursesIndex},
     { path: '/course/:id', component: CourseShowEdit, name: 'CoursesShowEdit'},
 ]
-
 const router = createRouter({
     history: createWebHistory(),
     routes
 })
+
 
 const app = createApp({})
 app.use(router)

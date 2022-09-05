@@ -3,12 +3,14 @@
         <div class="pb-6">
             <router-link to="/">Home</router-link>
         </div>
-        <AutoComplete 
-            v-model="selected_course" 
-            :suggestions="courses_data" 
-            :field="(item) => item.name"
-            @complete="searchCourses($event)" 
-        />
+        <span class="p-fluid">
+            <AutoComplete
+                v-model="selected_course" 
+                :suggestions="courses_data" 
+                :field="(item) => item.name"
+                @complete="searchCourses($event)" 
+            />
+        </span>
     </ul>
 </template>
 
@@ -21,7 +23,6 @@
             }
         },
         created() {
-            // this.getCourses()
         },
         watch: {
             selected_course(val=null) {
@@ -30,21 +31,21 @@
         },
         methods: {
             async searchCourses(event) {
-                const res = await axios.get('/api/courses', {params: {term: event.query}})
                 try {
+                    const res = await axios.get('/api/courses', {params: {term: event.query}})
                     this.courses_data = res.data
                 } catch (err) {
                     console.log(err)
                 }
             },
             selectionHandler() {
-                setTimeout(() => {
+                setTimeout(() => { // settimeout used due to wierd 'Cannot read properties of null (reading 'focus')' error when course selected
                     this.$router.push({ path: `/course/${this.selected_course.id}` })
-                }, 100);
-            },
-            test(event) {
-                console.log(event)
+                }, 1);
             }
         }
     }
+
+   
 </script>
+

@@ -19805,6 +19805,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   inject: ['dialogRef'],
   data: function data() {
@@ -19814,12 +19822,44 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.hole_data = Object.assign({}, this.dialogRef.data); // disconnect reactivity
-
-    console.log(this.dialogRef.data);
   },
   methods: {
     closeDialogRef: function closeDialogRef() {
       this.dialogRef.close();
+    },
+    updateHoleData: function updateHoleData() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return axios.post('/api/hole/edit/', {
+                  hole_data: JSON.stringify(_this.hole_data)
+                });
+
+              case 3:
+                res = _context.sent;
+                if (res.status === 200) _this.closeDialogRef();
+                _context.next = 10;
+                break;
+
+              case 7:
+                _context.prev = 7;
+                _context.t0 = _context["catch"](0);
+                console.log(_context.t0);
+
+              case 10:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[0, 7]]);
+      }))();
     }
   }
 });
@@ -19881,34 +19921,45 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context.abrupt("return", 'course id required to get course');
 
               case 3:
-                _context.next = 5;
+                _context.prev = 3;
+                _context.next = 6;
                 return axios.get("/api/course/".concat(id));
 
-              case 5:
+              case 6:
                 res = _context.sent;
+                _this.course_data = res.data;
+                _context.next = 13;
+                break;
 
-                try {
-                  _this.course_data = res.data;
-                } catch (err) {
-                  console.log(err);
-                }
+              case 10:
+                _context.prev = 10;
+                _context.t0 = _context["catch"](3);
+                console.log(_context.t0);
 
-              case 7:
+              case 13:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee);
+        }, _callee, null, [[3, 10]]);
       }))();
     },
     editHole: function editHole(hole) {
+      var self = this;
       var dialogRef = this.$dialog.open(_CourseForm_vue__WEBPACK_IMPORTED_MODULE_1__["default"], {
         data: hole,
         props: {
           header: "Edit hole #".concat(hole.number),
           style: {
             width: '50vw'
+          },
+          breakpoints: {
+            '640px': '90vw'
           }
+        },
+        onClose: function onClose(options) {
+          // reload data
+          self.getCourse(self.course_id);
         }
       });
       this.selectedHole = hole;
@@ -19944,8 +19995,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       selected_course: null
     };
   },
-  created: function created() {// this.getCourses()
-  },
+  created: function created() {},
   watch: {
     selected_course: function selected_course() {
       var val = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
@@ -19962,41 +20012,42 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                _context.prev = 0;
+                _context.next = 3;
                 return axios.get('/api/courses', {
                   params: {
                     term: event.query
                   }
                 });
 
-              case 2:
+              case 3:
                 res = _context.sent;
+                _this.courses_data = res.data;
+                _context.next = 10;
+                break;
 
-                try {
-                  _this.courses_data = res.data;
-                } catch (err) {
-                  console.log(err);
-                }
+              case 7:
+                _context.prev = 7;
+                _context.t0 = _context["catch"](0);
+                console.log(_context.t0);
 
-              case 4:
+              case 10:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee);
+        }, _callee, null, [[0, 7]]);
       }))();
     },
     selectionHandler: function selectionHandler() {
       var _this2 = this;
 
       setTimeout(function () {
+        // settimeout used due to wierd 'Cannot read properties of null (reading 'focus')' error when course selected
         _this2.$router.push({
           path: "/course/".concat(_this2.selected_course.id)
         });
-      }, 100);
-    },
-    test: function test(event) {
-      console.log(event);
+      }, 1);
     }
   }
 });
@@ -20177,8 +20228,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 8
   /* PROPS */
   , ["onClick"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
+    onClick: $options.updateHoleData,
     label: "Update"
-  })])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true);
+  }, null, 8
+  /* PROPS */
+  , ["onClick"])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true);
 }
 
 /***/ }),
@@ -20387,6 +20441,9 @@ var _hoisted_2 = {
 
 var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Home");
 
+var _hoisted_4 = {
+  "class": "p-fluid"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_router_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("router-link");
 
@@ -20401,7 +20458,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
     /* STABLE */
 
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AutoComplete, {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AutoComplete, {
     modelValue: $data.selected_course,
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.selected_course = $event;
@@ -20415,7 +20472,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   }, null, 8
   /* PROPS */
-  , ["modelValue", "suggestions", "field"])]);
+  , ["modelValue", "suggestions", "field"])])]);
 }
 
 /***/ }),

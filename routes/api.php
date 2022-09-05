@@ -20,4 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('courses', 'api\CourseController@index');
 Route::get('course/{id}', 'api\CourseController@show');
+
+
+Route::post('hole/edit', 'api\HoleController@update');
 // Route::get('course/{id}/details', 'CourseController@show');

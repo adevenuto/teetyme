@@ -62,22 +62,30 @@
         methods: {
             async getCourse(id=null) {
                 if(!id) return 'course id required to get course';
-                const res = await axios.get(`/api/course/${id}`);
                 try {
+                    const res = await axios.get(`/api/course/${id}`);
                     this.course_data = res.data
                 } catch (err) {
                     console.log(err);
                 }
             },
             editHole(hole) {
+                const self = this;
                 const dialogRef = this.$dialog.open(CourseForm, {
                     data: hole,
                     props: {
                         header: `Edit hole #${hole.number}`,
                         style: {
                             width: '50vw'
-                        }
+                        },
+                        breakpoints:{
+                            '640px': '90vw'
+                        },
                     },
+                    onClose(options) {
+                        // reload data
+                        self.getCourse(self.course_id)
+                    }
                 });
                 
                 this.selectedHole = hole
@@ -85,3 +93,6 @@
         }
     }
 </script>
+
+<style scoped>
+</style>
