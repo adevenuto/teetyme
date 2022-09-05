@@ -20,9 +20,8 @@
             <div class="mr-4">
                 <Button @click="closeDialogRef" class="mr-4 p-button-secondary" label="Cancel"/>
             </div>
-            <Button label="Update"/>
+            <Button @click="updateHoleData" label="Update"/>
         </div>
-        
     </div>
 </template>
 
@@ -31,16 +30,25 @@
         inject: ['dialogRef'],
         data() {
             return {
-                hole_data: null 
+                hole_data: null
             }
         },
         created() {
             this.hole_data = Object.assign({}, this.dialogRef.data); // disconnect reactivity
-            console.log(this.dialogRef.data)
         },
         methods: {
             closeDialogRef() {
                 this.dialogRef.close();
+            },
+            async updateHoleData() {
+                try {
+                    const res = await axios.post('/api/hole/edit/', {
+                        hole_data: JSON.stringify(this.hole_data)
+                    });
+                    if(res.status === 200) this.closeDialogRef()
+                } catch (err) {
+                    console.log(err);
+                }
             }
         }
     }
