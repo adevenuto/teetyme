@@ -1,17 +1,15 @@
 <template>
-    <ul class="p-10">
-        <div class="pb-6">
-            <router-link to="/">Home</router-link>
-        </div>
-        <span class="p-fluid">
+        <div class="pt-10 mx-6 p-fluid">
             <AutoComplete
                 v-model="selected_course" 
                 :suggestions="courses_data" 
                 :field="(item) => item.name"
-                @complete="searchCourses($event)" 
+                @complete="searchCourses($event)"
+                placeholder="Search courses..." 
+                panelClass="w-full"
+                appendTo="self"
             />
-        </span>
-    </ul>
+        </div>
 </template>
 
 <script>
@@ -45,7 +43,9 @@
             }
         }
     }
-
-   
 </script>
-
+<style scoped>
+    .p-autocomplete-panel .p-autocomplete-items .p-autocomplete-item {
+        margin: 0 !important;
+    }
+</style>
