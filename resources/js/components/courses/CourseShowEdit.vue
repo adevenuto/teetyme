@@ -1,15 +1,16 @@
 <template>
     <div v-if="course_data" class="max-w-6xl p-10 shadow-lg sm:mx-auto">
-
         <div class="my-6">
             <span class="p-float-label">
-                <InputText id="course_name" class="w-full md:w-1/2" type="text" v-model="course_data.course.name" />
+                <InputText id="course_name" class="w-full md:w-1/2" type="text" v-model="course_data.course.name" disabled/>
                 <label for="course_name">Course Name</label>
             </span>
         </div>
-
         <TabView>
-            <TabPanel v-for="(teebox, i) in course_data.teeboxes" :key="i" :header="i">
+            <TabPanel v-for="(teebox, i) in course_data.teeboxes" :key="i">
+                <template #header>
+                    <span>{{ i }} <i @click.stop="editHoleGroupName(course_data.course.id, i)" style="font-size: .75rem" class="p-1 text-white rounded prime-blue pi pi-pencil"></i></span>
+                </template>
                 <div class="grid grid-cols-1 gap-8 sm:grid-cols-3 md:grid-cols-4">
                     <Card  v-for="hole in teebox" :key="hole.id">
                         <template #title>
@@ -41,19 +42,18 @@
                 </div>
             </TabPanel>
         </TabView>
-        <Toast />
     </div>
 </template>
 
 <script>
     import { useRoute } from 'vue-router'
-    import CourseForm from './CourseForm.vue'
+    import CourseHoleForm from './CourseHoleForm.vue'
+    import CourseHoleGroupForm from './CourseHoleGroupForm.vue'
     export default {
         data() {
             return {
                 course_id: useRoute().params.id,
-                course_data: null,
-                selectedHole: null
+                course_data: null
             }
         },
         created() {
@@ -71,7 +71,7 @@
             },
             editHole(hole) {
                 const self = this;
-                const dialogRef = this.$dialog.open(CourseForm, {
+                const dialogRef = this.$dialog.open(CourseHoleForm, {
                     data: hole,
                     props: {
                         header: `Edit hole #${hole.number}`,
@@ -87,12 +87,39 @@
                         self.getCourse(self.course_id)
                     }
                 });
-                
-                this.selectedHole = hole
+            },
+            editHoleGroupName(course_id, group_name) {
+                const data = {
+                    course_id,
+                    group_name
+                }
+                const self = this;
+                const dialogRef = this.$dialog.open(CourseHoleGroupForm, {
+                    data: data,
+                    props: {
+                        header: 'Edit group name',
+                        style: {
+                            width: '50vw'
+                        },
+                        breakpoints:{
+                            '640px': '90vw'
+                        },
+                    },
+                    onClose(options) {
+                        // reload data
+                        self.getCourse(self.course_id)
+                    }
+                });
             }
         }
     }
 </script>
 
 <style scoped>
+    .prime-blue {
+        background: #2196F3;
+    }
+    .prime-blue:hover {
+        background: #0d89ec;
+    }
 </style>

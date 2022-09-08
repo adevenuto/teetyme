@@ -52,7 +52,7 @@ class CourseController extends Controller
     {
         try {
             $course = DB::table('courses as c')
-                        ->select('c.name')
+                        ->select('c.name', 'c.id')
                         ->where('c.id', $id)
                         ->first();
             $holes_collection = collect(DB::table('holes as h')
