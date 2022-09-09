@@ -1,15 +1,15 @@
 <template>
     <div v-if="hole_data" class="mt-10">
         <div class="mb-8 p-float-label">
-            <InputText id="course_name" class="w-full" type="text" v-model="hole_data.group_name" />
-            <label for="course_name">Group name</label>
+            <InputText id="course_name" class="w-full" type="text" v-model="hole_data.new_teebox"/>
+            <label for="course_name">Teebox</label>
         </div>
         
         <div class="flex justify-end">
             <div class="mr-4">
                 <Button @click="closeDialogRef" class="mr-4 p-button-secondary" label="Cancel"/>
             </div>
-            <Button @click="updateHoleData" label="Update"/>
+            <Button @click="updateTeebox" label="Update" :disabled="!hole_data.new_teebox"/>
         </div>
     </div>
 </template>
@@ -29,9 +29,10 @@
             closeDialogRef() {
                 this.dialogRef.close();
             },
-            async updateHoleData() {
+            async updateTeebox() {
                 try {
-                    const res = await axios.post('/api/hole/edit/', {
+                    console.log(this.hole_data)
+                    const res = await axios.post('/api/hole/teebox/edit/', {
                         hole_data: JSON.stringify(this.hole_data)
                     });
                     if(res.status === 200) this.closeDialogRef()

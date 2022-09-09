@@ -23,4 +23,5 @@ Route::get('course/{id}', 'api\CourseController@show');
 
 
 Route::post('hole/edit', 'api\HoleController@update');
+Route::post('hole/teebox/edit', 'api\HoleController@updateTeebox');
 // Route::get('course/{id}/details', 'CourseController@show');

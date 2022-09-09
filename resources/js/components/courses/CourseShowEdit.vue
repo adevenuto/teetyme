@@ -9,7 +9,7 @@
         <TabView>
             <TabPanel v-for="(teebox, i) in course_data.teeboxes" :key="i">
                 <template #header>
-                    <span>{{ i }} <i @click.stop="editHoleGroupName(course_data.course.id, i)" style="font-size: .75rem" class="p-1 text-white rounded prime-blue pi pi-pencil"></i></span>
+                    <span>{{ i }} <i @click.stop="editHoleTeeboxName(course_data.course.id, i)" style="font-size: .75rem" class="p-1 text-white rounded prime-blue pi pi-pencil"></i></span>
                 </template>
                 <div class="grid grid-cols-1 gap-8 sm:grid-cols-3 md:grid-cols-4">
                     <Card  v-for="hole in teebox" :key="hole.id">
@@ -48,7 +48,7 @@
 <script>
     import { useRoute } from 'vue-router'
     import CourseHoleForm from './CourseHoleForm.vue'
-    import CourseHoleGroupForm from './CourseHoleGroupForm.vue'
+    import CourseHoleTeeboxForm from './CourseHoleTeeboxForm.vue'
     export default {
         data() {
             return {
@@ -88,16 +88,16 @@
                     }
                 });
             },
-            editHoleGroupName(course_id, group_name) {
+            editHoleTeeboxName(course_id, teebox) {
                 const data = {
                     course_id,
-                    group_name
+                    teebox
                 }
                 const self = this;
-                const dialogRef = this.$dialog.open(CourseHoleGroupForm, {
+                const dialogRef = this.$dialog.open(CourseHoleTeeboxForm, {
                     data: data,
                     props: {
-                        header: 'Edit group name',
+                        header: `Edit teebox (${data.teebox})`,
                         style: {
                             width: '50vw'
                         },
