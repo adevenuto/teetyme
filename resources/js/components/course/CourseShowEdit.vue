@@ -1,10 +1,13 @@
 <template>
-    <div v-if="course_data" class="max-w-6xl p-10 shadow-lg sm:mx-auto">
-        <div class="my-6">
-            <span class="p-float-label">
-                <InputText id="course_name" class="w-full md:w-1/2" type="text" v-model="course_data.course.name" disabled/>
+    <div v-if="course_data" class="h-screen max-w-6xl p-10 sm:mx-auto">
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+            <div class="my-6 sm:order-2">
+                <Button @click="initiateNewRound(course_data.course.id)" class="p-button-success" icon="pi pi-flag" label="Play Now" />
+            </div>
+            <div class="flex-1 my-6 p-float-label sm:order-1 sm:mr-40">
+                <InputText id="course_name" class="w-full" type="text" v-model="course_data.course.name" disabled/>
                 <label for="course_name">Course Name</label>
-            </span>
+            </div>
         </div>
         <TabView>
             <TabPanel v-for="(teebox, i) in course_data.teeboxes" :key="i">
@@ -36,7 +39,7 @@
                             </div>
                         </template>
                         <template #footer>
-                            <Button @click="editHole(hole)" icon="pi pi-pencil" label="Edit" />
+                            <Button @click="editHole(hole)" icon="pi pi-pencil" label="Update" />
                         </template>
                     </Card>
                 </div>
@@ -49,11 +52,24 @@
     import { useRoute } from 'vue-router'
     import CourseHoleForm from './CourseHoleForm.vue'
     import CourseHoleTeeboxForm from './CourseHoleTeeboxForm.vue'
+    import SetRoundConfig from '../round/SetRoundConfig.vue'
     export default {
         data() {
             return {
                 course_id: useRoute().params.id,
-                course_data: null
+                course_data: null,
+                dialog_style: {width: '50vw'},
+                dialog_breakpoints: {'640px': '90vw'},
+            }
+        },
+        computed: {
+            course_teeboxes() {
+                const data = this.course_data
+                if(data) {
+                    return Object.keys(data.teeboxes).map( teebox => {
+                        return { teebox }
+                    })
+                }
             }
         },
         created() {
@@ -75,12 +91,8 @@
                     data: hole,
                     props: {
                         header: `Edit hole #${hole.number}`,
-                        style: {
-                            width: '50vw'
-                        },
-                        breakpoints:{
-                            '640px': '90vw'
-                        },
+                        style: self.dialog_style,
+                        breakpoints: self.dialog_breakpoints,
                     },
                     onClose(options) {
                         // reload data
@@ -98,16 +110,31 @@
                     data: data,
                     props: {
                         header: `Edit teebox (${data.teebox})`,
-                        style: {
-                            width: '50vw'
-                        },
-                        breakpoints:{
-                            '640px': '90vw'
-                        },
+                        style: self.dialog_style,
+                        breakpoints: self.dialog_breakpoints,
                     },
                     onClose(options) {
                         // reload data
                         self.getCourse(self.course_id)
+                    }
+                });
+            },
+            initiateNewRound(course_id) {
+                const data = {
+                    course_id,
+                    teeboxes: this.course_teeboxes,
+                }
+                const self = this;
+                const dialogRef = this.$dialog.open(SetRoundConfig, {
+                    data: data,
+                    props: {
+                        header: `Choose a teebox`,
+                        style: self.dialog_style,
+                        breakpoints: self.dialog_breakpoints,
+                    },
+                    onClose(options) {
+                        // reload data
+                        // self.getCourse(self.course_id)
                     }
                 });
             }
