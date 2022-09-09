@@ -1,4 +1,5 @@
 <template>
+    <div class="h-screen max-w-6xl p-10 sm:mx-auto">
         <div class="pt-10 mx-6 p-fluid">
             <AutoComplete
                 v-model="selected_course" 
@@ -10,6 +11,7 @@
                 appendTo="self"
             />
         </div>
+    </div>
 </template>
 
 <script>

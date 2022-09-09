@@ -1,4 +1,4 @@
-require('./bootstrap');
+require('./bootstrap')
 
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -6,12 +6,13 @@ import { createRouter, createWebHistory } from 'vue-router'
 // PrimeVue
 import PrimeVue from 'primevue/config'
 import InputText from 'primevue/inputtext'
-import Button from 'primevue/button';
-import Divider from 'primevue/divider';
-import Card from 'primevue/card';
+import Button from 'primevue/button'
+import Divider from 'primevue/divider'
+import Card from 'primevue/card'
 import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
 import AutoComplete from 'primevue/autocomplete'
+import Dropdown from 'primevue/dropdown'
 
 import DialogService from 'primevue/dialogservice'
 import DynamicDialog from 'primevue/dynamicdialog'
@@ -24,8 +25,8 @@ import 'primeicons/primeicons.css'                           //icons
 
 // Router
 import LandingPage from './components/LandingPage'
-import CoursesIndex from './components/courses/CoursesIndex'
-import CourseShowEdit from './components/courses/CourseShowEdit'
+import CoursesIndex from './components/course/CoursesIndex'
+import CourseShowEdit from './components/course/CourseShowEdit'
 const routes = [
     { path: '/', component: LandingPage},
     { path: '/courses', component: CoursesIndex},
@@ -50,4 +51,5 @@ app.component('Toast', Toast)
 app.component('TabView', TabView)
 app.component('TabPanel', TabPanel)
 app.component('AutoComplete', AutoComplete)
+app.component('Dropdown', Dropdown)
 app.mount('#app')
