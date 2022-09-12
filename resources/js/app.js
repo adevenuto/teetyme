@@ -1,7 +1,7 @@
 require('./bootstrap')
 
 import { createApp } from 'vue'
-import { createRouter, createWebHistory } from 'vue-router'
+import router from './router'
 
 // PrimeVue
 import PrimeVue from 'primevue/config'
@@ -23,19 +23,6 @@ import 'primevue/resources/themes/saga-blue/theme.css'       //theme
 import 'primevue/resources/primevue.min.css'                 //core css
 import 'primeicons/primeicons.css'                           //icons
 
-// Router
-import LandingPage from './components/LandingPage'
-import CoursesIndex from './components/course/CoursesIndex'
-import CourseShowEdit from './components/course/CourseShowEdit'
-const routes = [
-    { path: '/', component: LandingPage},
-    { path: '/courses', component: CoursesIndex},
-    { path: '/course/:id', component: CourseShowEdit, name: 'CoursesShowEdit'},
-]
-const router = createRouter({
-    history: createWebHistory(),
-    routes
-})
 
 
 const app = createApp({})
