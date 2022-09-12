@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 // Route::post('scrape/courses', 'ScrappingController@scrapeCourses');
 // Route::post('scrape/courses/holes', 'ScrappingController@scrapeCourseHoles');
 
+Route::post('/login', 'auth\LoginController@authenticate');
+
 Route::view('/{any?}', 'landing')
     ->name('landing')
     ->where('any', '.*');
