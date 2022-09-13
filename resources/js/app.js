@@ -3,7 +3,7 @@ require('./bootstrap')
 import { createApp } from 'vue'
 import router from './router'
 import store from './store'
-import logout from './components/auth/logout'
+import Logout from './components/auth/Logout'
 
 // PrimeVue
 import PrimeVue from 'primevue/config'
@@ -32,7 +32,7 @@ app.use(router)
 app.use(store)
 app.use(PrimeVue)
 app.use(DialogService)
-app.component('logout', logout)
+app.component('Logout', Logout)
 app.component('InputText', InputText)
 app.component('Button', Button)
 app.component('Card', Card)
