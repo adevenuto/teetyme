@@ -50,11 +50,14 @@ router.beforeEach((to, from, next) => {
       if (sessionStorage.getItem('loggedIn') == null) {
         next({ name: 'Login' })
       } else {
-        console.log('here')
         next() // go to wherever I'm going
       }
+      // If loggedIn and trying to access 'login' or 'register' redirect...
+    } else if ((to.name == 'Login' || to.name == 'Register') && sessionStorage.getItem('loggedIn') !== null) {
+        next({ name: 'Courses' })
     } else {
-      next() // does not require auth, make sure to always call next()!
+        // does not require auth, make sure to always call next()!
+        next()
     }
 })
 
