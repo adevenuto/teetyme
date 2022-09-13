@@ -5,6 +5,7 @@
     </head>
     <body>
         <div id="app" class="h-screen">
+            <logout></logout>
             <dynamic-dialog></dynamic-dialog>
             <router-view></router-view>
         </div>

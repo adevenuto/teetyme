@@ -18,13 +18,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('courses', 'api\CourseController@index');
-Route::get('course/{id}', 'api\CourseController@show');
 
 
-Route::post('hole/edit', 'api\HoleController@update');
-Route::post('hole/teebox/edit', 'api\HoleController@updateTeebox');
+Route::group(['middleware' => 'auth:sanctum'], function() {
+    Route::get('courses', 'api\CourseController@index');
+    Route::get('course/{id}', 'api\CourseController@show');
+
+    Route::post('hole/edit', 'api\HoleController@update');
+    Route::post('hole/teebox/edit', 'api\HoleController@updateTeebox');
+
+    Route::post('round/create', 'api\RoundController@create');
+});
 
 
-Route::post('round/create', 'api\RoundController@create');
-// Route::get('course/{id}/details', 'CourseController@show');
+
