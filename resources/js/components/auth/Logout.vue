@@ -7,7 +7,10 @@
             async logout() {
                 try {
                     const logout = await axios.post('/logout')
-                    if(logout.status === 200) this.$router.push({path: '/login'})
+                    if(logout.status === 200) {
+                        sessionStorage.removeItem('loggedIn')
+                        this.$router.push({path: '/login'})
+                    }
                 } catch (err) {
                     console.log(err);
                 }

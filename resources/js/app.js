@@ -2,7 +2,9 @@ require('./bootstrap')
 
 import { createApp } from 'vue'
 import router from './router'
+import store from './store'
 import logout from './components/auth/logout'
+
 // PrimeVue
 import PrimeVue from 'primevue/config'
 import InputText from 'primevue/inputtext'
@@ -27,6 +29,7 @@ import 'primeicons/primeicons.css'                           //icons
 
 const app = createApp({})
 app.use(router)
+app.use(store)
 app.use(PrimeVue)
 app.use(DialogService)
 app.component('logout', logout)

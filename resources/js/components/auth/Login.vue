@@ -40,7 +40,10 @@
                                 'Accept': 'application/json'
                             }
                         })
-                        if(login.status === 200) this.$router.push({path: '/courses'})
+                        if(login.status === 200) {
+                            sessionStorage.setItem('loggedIn', true)
+                            this.$router.push({path: '/courses'})
+                        }
                     }
                 } catch (err) {
                     console.log(err);
