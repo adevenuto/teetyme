@@ -3,12 +3,17 @@ import router from '../router'
 
 const store = createStore({
     state() {
-        return {
-            
-        }
+    },
+    getters: {
     },
     mutations: {
-        
+        async setLogOut(state) {
+            const logout = await axios.post('/logout')
+            if(logout.status === 200) {
+                localStorage.removeItem('loggedIn')
+                router.push({path: '/login'})
+            }
+        }
     }
 })
 

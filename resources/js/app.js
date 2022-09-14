@@ -44,3 +44,10 @@ app.component('TabPanel', TabPanel)
 app.component('AutoComplete', AutoComplete)
 app.component('Dropdown', Dropdown)
 app.mount('#app')
+
+window.addEventListener('storage', function(e) {
+    // if user clears localStorage or the loggedIn key
+    if ((e.key === null) || (e.key === 'loggedIn' && e.currentValue !== 'true')) {
+        store.commit('setLogOut')
+    }
+});
