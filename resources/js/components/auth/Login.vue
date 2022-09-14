@@ -41,7 +41,7 @@
                             }
                         })
                         if(login.status === 200) {
-                            sessionStorage.setItem('loggedIn', true)
+                            localStorage.setItem('loggedIn', true)
                             this.$router.push({path: '/courses'})
                         }
                     }
