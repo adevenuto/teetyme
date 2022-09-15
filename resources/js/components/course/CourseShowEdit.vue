@@ -2,7 +2,7 @@
     <div v-if="course_data" class="h-screen max-w-6xl p-10 sm:mx-auto">
         <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center">
             <div class="my-6 sm:order-2">
-                <Button @click="initiateNewRound(course_data.course.id)" class="p-button-success" icon="pi pi-flag" label="Play Now" />
+                <Button @click="startNewRound" class="p-button-success" icon="pi pi-flag" label="Play Now" />
             </div>
             <div class="flex-1 my-6 p-float-label sm:order-1 sm:mr-40">
                 <InputText id="course_name" class="w-full" type="text" v-model="course_data.course.name" disabled/>
@@ -62,16 +62,6 @@
                 dialog_breakpoints: {'640px': '90vw'},
             }
         },
-        computed: {
-            course_teeboxes() {
-                const data = this.course_data
-                if(data) {
-                    return Object.keys(data.teeboxes).map( teebox => {
-                        return { teebox }
-                    })
-                }
-            }
-        },
         created() {
             this.getCourse(this.course_id)
         },
@@ -88,7 +78,7 @@
             editHole(hole) {
                 const self = this;
                 const dialogRef = this.$dialog.open(CourseHoleForm, {
-                    data: hole,
+                    data: JSON.stringify(hole),
                     props: {
                         header: `Edit hole #${hole.number}`,
                         style: self.dialog_style,
@@ -107,7 +97,7 @@
                 }
                 const self = this;
                 const dialogRef = this.$dialog.open(CourseHoleTeeboxForm, {
-                    data: data,
+                    data: JSON.stringify(data),
                     props: {
                         header: `Edit teebox (${data.teebox})`,
                         style: self.dialog_style,
@@ -119,22 +109,14 @@
                     }
                 });
             },
-            initiateNewRound(course_id) {
-                const data = {
-                    course_id,
-                    teeboxes: this.course_teeboxes,
-                }
+            startNewRound() {
                 const self = this;
                 const dialogRef = this.$dialog.open(SetRoundConfig, {
-                    data: data,
+                    data: JSON.stringify(this.course_data),
                     props: {
                         header: `Choose a teebox`,
                         style: self.dialog_style,
                         breakpoints: self.dialog_breakpoints,
-                    },
-                    onClose(options) {
-                        // reload data
-                        // self.getCourse(self.course_id)
                     }
                 });
             }

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Dropdown v-model="selected_teebox" :options="round_data.teeboxes" optionLabel="teebox" placeholder="Select a teebox" />
+        <Dropdown v-model="selected_teebox" :options="course_teeboxes" optionLabel="teebox" placeholder="Select a teebox" />
         <div class="flex justify-end">
             <div class="mr-4">
                 <Button @click="closeDialogRef" class="mr-4 p-button-secondary" label="Cancel"/>
@@ -20,28 +20,34 @@
                 isLoading: false
             }
         },
+        computed: {
+            course_teeboxes() {
+                const data = this.round_data
+                if(data) {
+                    return Object.keys(data.teeboxes).map( teebox => {
+                        return { teebox }
+                    })
+                }
+            }
+        },
         created() {
-            this.round_data = Object.assign({}, this.dialogRef.data); // disconnect reactivity
+            this.round_data = JSON.parse(this.dialogRef.data); // disconnect reactivity
         },
         methods: {
             closeDialogRef() {
                 this.isLoading = false
                 this.dialogRef.close()
             },
-            async startRound() {
-                try {
-                    const data = {
-                        course_id: this.round_data.course_id,
-                        selected_teebox: this.selected_teebox.teebox
-                    }
-                    this.isLoading = true
-                    const res = await axios.post('/api/round/create', {
-                        round_data: JSON.stringify(data)
-                    });
-                    if(res.status === 200) this.closeDialogRef()
-                } catch (err) {
-                    console.log(err);
+            startRound() {
+                this.isLoading = true
+                const round_data = {
+                    course: this.round_data.course,
+                    teebox: this.selected_teebox.teebox,
+                    holes: this.round_data.teeboxes[this.selected_teebox.teebox]
                 }
+                this.$store.commit('setRoundData', round_data)
+                this.$router.push({name: 'RoundIndex'})
+                this.closeDialogRef()
             }
         }
     }

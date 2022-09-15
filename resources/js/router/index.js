@@ -1,12 +1,14 @@
 
 import { createRouter, createWebHistory } from 'vue-router'
-import store from '../store'
 
 import LandingPage from '../components/LandingPage'
+import PageNotFound from '../components/PageNotFound'
+
 import Login from '../components/auth/Login'
 import Register from '../components/auth/Register'
 import CoursesIndex from '../components/course/CoursesIndex'
 import CourseShowEdit from '../components/course/CourseShowEdit'
+import RoundIndex from '../components/round/RoundIndex'
 
 export const routes = [
     { 
@@ -36,6 +38,14 @@ export const routes = [
         name: 'CoursesShowEdit',
         meta: { requiresAuth: true }
     },
+    { 
+        path: '/round', 
+        component: RoundIndex, 
+        name: 'RoundIndex',
+        props: true,
+        meta: { requiresAuth: true }
+    },
+    { path: '/:pathMatch(.*)*', component: PageNotFound }
 ]
 
 const router = createRouter({
