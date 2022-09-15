@@ -23,7 +23,7 @@
             }
         },
         created() {
-            this.hole_data = Object.assign({}, this.dialogRef.data); // disconnect reactivity
+            this.hole_data = JSON.parse(this.dialogRef.data); // disconnect reactivity
         },
         methods: {
             closeDialogRef() {
